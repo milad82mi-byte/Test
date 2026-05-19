@@ -19,9 +19,7 @@
       "protocol": "https"
     }
   },
-  "forwardPorts": [
-    443
-  ],
+  "forwardPorts": [443],
   "hostRequirements": {
     "cpus": 2
   }

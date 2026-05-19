@@ -2,7 +2,6 @@
 
 echo "[g2ray auto-restart] Started..."
 
-# بررسی وجود sudo
 if command -v sudo &> /dev/null; then
     XRAY_CMD="sudo /usr/local/bin/xray"
     echo "[g2ray] sudo detected, using it"
@@ -20,7 +19,6 @@ while true; do
 
   echo "[g2ray] Running with PID $PID"
 
-  # Keepalive every 3 minutes for 3h40m
   for ((i=0; i<73; i++)); do
     sleep 180
     echo "1"

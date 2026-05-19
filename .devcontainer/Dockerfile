@@ -1,15 +1,13 @@
 FROM debian:bookworm-slim
 
-# کپی فایل‌های مورد نیاز
 COPY setup.sh /tmp/setup.sh
 COPY config.json /etc/xray/g2ray.json
 COPY show-link.sh /usr/local/bin/show-link.sh
 COPY start.sh /usr/local/bin/start.sh
 
-# نصب dependencies و اجرای setup
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       bash curl wget unzip ca-certificates openssl uuid-runtime \
+       bash curl wget unzip ca-certificates openssl uuid-runtime jq \
     && rm -rf /var/lib/apt/lists/* \
     && chmod +x /tmp/setup.sh \
     && /tmp/setup.sh \
@@ -17,8 +15,6 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/show-link.sh \
     && chmod +x /usr/local/bin/start.sh
 
-# باز کردن پورت 443
 EXPOSE 443
 
-# دستور اجرای Xray با کانفیگ صحیح
 CMD ["/usr/local/bin/xray", "run", "-c", "/etc/xray/g2ray.json"]

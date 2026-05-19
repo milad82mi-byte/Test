@@ -12,22 +12,17 @@
       "version": "latest"
     }
   },
-  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && sleep 2 && bash /usr/local/bin/start.sh",
+  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && bash /usr/local/bin/start.sh",
   "portsAttributes": {
     "443": {
-      "label": "Xray VLESS",
-      "protocol": "https",
-      "onAutoForward": "notify",
-      "visibility": "public"
+      "label": "silver-wave-ba29e7",
+      "protocol": "https"
     }
   },
-  "forwardPorts": [443],
+  "forwardPorts": [
+    443
+  ],
   "hostRequirements": {
     "cpus": 2
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": []
-    }
   }
 }

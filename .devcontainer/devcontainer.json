@@ -29,8 +29,5 @@
     "vscode": {
       "extensions": []
     }
-  },
-  "remoteUser": "root",
-  "updateRemoteUserUID": false,
-  "containerUser": "root"
+  }
 }

@@ -2,7 +2,6 @@
 CONFIG="/etc/xray/g2ray.json"
 UUID=$(grep -o '"id": *"[^"]*"' "$CONFIG" | head -1 | grep -o '"[^"]*"$' | tr -d '"')
 if [ -z "$UUID" ]; then echo "[g2ray] UUID پیدا نشد."; exit 1; fi
-HOST="${CODESPACE_NAME}-443.app.github.dev"
 
 MANGA_CHARS=(
   "Goku"
@@ -108,7 +107,9 @@ RANDOM_ID=$(shuf -i 1000-9999 -n 1)
 
 NAME="${CHAR}-${RANDOM_ID}"
 
-LINK="vless://${UUID}@94.130.13.19:443?encryption=none&security=tls&sni=${HOST}&type=xhttp&mode=packet-up&path=%2F#${NAME}"
+# لینک اصلاح شده با IP و SNI جدید
+LINK="vless://${UUID}@104.19.229.21:443?encryption=none&security=tls&sni=www.hcaptcha.com&fp=chrome&allowInsecure=1&type=xhttp&mode=packet-up&path=%2F&host=www.hcaptcha.com#${NAME}"
+
 echo ""
 echo "================================================"
 echo "$LINK"

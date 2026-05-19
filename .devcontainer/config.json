@@ -37,7 +37,11 @@
       },
       "streamSettings": {
         "network": "xhttp",
-        "security": "none",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "www.hcaptcha.com",
+          "allowInsecure": true
+        },
         "xhttpSettings": {
           "mode": "packet-up",
           "path": "/",

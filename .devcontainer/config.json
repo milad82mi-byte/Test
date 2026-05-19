@@ -8,9 +8,7 @@
     "servers": [
       {
         "address": "https://1.1.1.1/dns-query",
-        "domains": [
-          "geosite:geolocation-!cn"
-        ],
+        "domains": ["geosite:geolocation-!cn"],
         "queryStrategy": "UseIP"
       },
       "8.8.8.8",
@@ -39,23 +37,17 @@
         "network": "xhttp",
         "security": "tls",
         "tlsSettings": {
-          "serverName": "www.hcaptcha.com",
-          "allowInsecure": true
+          "allowInsecure": true,
+          "serverName": "www.hcaptcha.com"
         },
         "xhttpSettings": {
           "mode": "packet-up",
-          "path": "/",
-          "maxUploadSize": 1000000,
-          "maxConcurrentUploads": 10
+          "path": "/"
         }
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ],
+        "destOverride": ["http", "tls", "quic"],
         "routeOnly": false
       }
     }

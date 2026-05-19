@@ -2,8 +2,17 @@
 
 echo "[g2ray auto-restart] Started..."
 
+# بررسی وجود sudo
+if command -v sudo &> /dev/null; then
+    XRAY_CMD="sudo /usr/local/bin/xray"
+    echo "[g2ray] sudo detected, using it"
+else
+    XRAY_CMD="/usr/local/bin/xray"
+    echo "[g2ray] sudo not found, running directly"
+fi
+
 while true; do
-  sudo /usr/local/bin/xray run -c /etc/xray/g2ray.json &>/tmp/xray.log &
+  $XRAY_CMD run -c /etc/xray/g2ray.json &>/tmp/xray.log &
   PID=$!
 
   sleep 2

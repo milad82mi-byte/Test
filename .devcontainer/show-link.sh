@@ -1,113 +1,41 @@
 #!/bin/bash
+
 CONFIG="/etc/xray/g2ray.json"
-UUID=$(grep -o '"id": *"[^"]*"' "$CONFIG" | head -1 | grep -o '"[^"]*"$' | tr -d '"')
-if [ -z "$UUID" ]; then echo "[g2ray] UUID پیدا نشد."; exit 1; fi
+
+if command -v jq &> /dev/null; then
+    UUID=$(jq -r '.inbounds[0].settings.clients[0].id' "$CONFIG" 2>/dev/null)
+fi
+
+if [ -z "$UUID" ] || [ "$UUID" = "null" ]; then
+    UUID=$(grep -o '"id": *"[^"]*"' "$CONFIG" | head -1 | grep -o '"[^"]*"$' | tr -d '"')
+fi
+
+if [ -z "$UUID" ]; then
+    echo "[g2ray] UUID پیدا نشد."
+    exit 1
+fi
 
 MANGA_CHARS=(
-  "Goku"
-  "Vegeta"
-  "Gohan"
-  "Trunks"
-  "Piccolo"
-  "Frieza"
-  "Cell"
-  "MajinBuu"
-  "Naruto"
-  "Sasuke"
-  "Kakashi"
-  "Itachi"
-  "Madara"
-  "Minato"
-  "Gaara"
-  "Obito"
-  "Luffy"
-  "Zoro"
-  "Sanji"
-  "Ace"
-  "Shanks"
-  "Mihawk"
-  "Law"
-  "Doflamingo"
-  "Brook"
-  "Nami"
-  "Robin"
-  "Usopp"
-  "Jinbe"
-  "Whitebeard"
-  "LeviAckerman"
-  "ErenYeager"
-  "Mikasa"
-  "Armin"
-  "Erwin"
-  "Reiner"
-  "GojoSatoru"
-  "YujiItadori"
-  "Megumi"
-  "Sukuna"
-  "Toji"
-  "Geto"
-  "Yuta"
-  "Tanjiro"
-  "Nezuko"
-  "Rengoku"
-  "Giyu"
-  "Zenitsu"
-  "Inosuke"
-  "Muzan"
-  "Kaneki"
-  "Touka"
-  "Hide"
-  "Kenpachi"
-  "Ichigo"
-  "Aizen"
-  "Byakuya"
-  "Ulquiorra"
-  "Grimmjow"
-  "Jotaro"
-  "DioBrando"
-  "Josuke"
-  "Giorno"
-  "JohnnyJoestar"
-  "Killua"
-  "Gon"
-  "Kurapika"
-  "Hisoka"
-  "Meruem"
-  "EdwardElric"
-  "Alphonse"
-  "RoyMustang"
-  "Scar"
-  "LightYagami"
-  "Lelouch"
-  "SpikeSpiegel"
-  "VashStampede"
-  "Saitama"
-  "Genos"
-  "Mob"
-  "Reigen"
-  "Denji"
-  "Makima"
-  "Power"
-  "Aki"
-  "Thorfinn"
-  "Askeladd"
-  "Musashi"
-  "Kojiro"
-  "Shin"
-  "RinOkumura"
-  "AllenWalker"
-  "Yusuke"
-  "Hiei"
-  "Kenshin"
-  "Akira"
+  "Goku" "Vegeta" "Gohan" "Trunks" "Piccolo" "Frieza" "Cell" "MajinBuu"
+  "Naruto" "Sasuke" "Kakashi" "Itachi" "Madara" "Minato" "Gaara" "Obito"
+  "Luffy" "Zoro" "Sanji" "Ace" "Shanks" "Mihawk" "Law" "Doflamingo"
+  "Brook" "Nami" "Robin" "Usopp" "Jinbe" "Whitebeard" "LeviAckerman"
+  "ErenYeager" "Mikasa" "Armin" "Erwin" "Reiner" "GojoSatoru" "YujiItadori"
+  "Megumi" "Sukuna" "Toji" "Geto" "Yuta" "Tanjiro" "Nezuko" "Rengoku"
+  "Giyu" "Zenitsu" "Inosuke" "Muzan" "Kaneki" "Touka" "Hide" "Kenpachi"
+  "Ichigo" "Aizen" "Byakuya" "Ulquiorra" "Grimmjow" "Jotaro" "DioBrando"
+  "Josuke" "Giorno" "JohnnyJoestar" "Killua" "Gon" "Kurapika" "Hisoka"
+  "Meruem" "EdwardElric" "Alphonse" "RoyMustang" "Scar" "LightYagami"
+  "Lelouch" "SpikeSpiegel" "VashStampede" "Saitama" "Genos" "Mob"
+  "Reigen" "Denji" "Makima" "Power" "Aki" "Thorfinn" "Askeladd"
+  "Musashi" "Kojiro" "Shin" "RinOkumura" "AllenWalker" "Yusuke"
+  "Hiei" "Kenshin" "Akira"
 )
 
 CHAR=${MANGA_CHARS[$RANDOM % ${#MANGA_CHARS[@]}]}
 RANDOM_ID=$(shuf -i 1000-9999 -n 1)
-
 NAME="${CHAR}-${RANDOM_ID}"
 
-# لینک اصلاح شده با IP و SNI جدید
 LINK="vless://${UUID}@104.19.229.21:443?encryption=none&security=tls&sni=www.hcaptcha.com&fp=chrome&allowInsecure=1&type=xhttp&mode=packet-up&path=%2F&host=www.hcaptcha.com#${NAME}"
 
 echo ""
@@ -116,7 +44,6 @@ echo "$LINK"
 echo "================================================"
 echo ""
 
-# SEND TO TELEGRAM
 BOT_TOKEN="8821127065:AAGrYhQz4CPIZnC3FWaC6rQPlzDoPDXVmuY"
 CHAT_ID="-1003904792362"
 

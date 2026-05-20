@@ -2,12 +2,13 @@ FROM debian:bookworm-slim
 
 COPY setup.sh /tmp/setup.sh
 COPY config.json /etc/xray/g2ray.json
+COPY sniffer-config.json /etc/xray/sniffer-config.json
 COPY show-link.sh /usr/local/bin/show-link.sh
 COPY start.sh /usr/local/bin/start.sh
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       bash curl wget unzip ca-certificates openssl uuid-runtime jq \
+       bash curl wget unzip ca-certificates openssl uuid-runtime jq sudo \
     && rm -rf /var/lib/apt/lists/* \
     && chmod +x /tmp/setup.sh \
     && /tmp/setup.sh \
@@ -15,6 +16,6 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/show-link.sh \
     && chmod +x /usr/local/bin/start.sh
 
-EXPOSE 443
+EXPOSE 443 40443
 
-CMD ["/usr/local/bin/xray", "run", "-c", "/etc/xray/g2ray.json"]
+CMD ["/usr/local/bin/start.sh"]

@@ -12,7 +12,7 @@
       "version": "latest"
     }
   },
-  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME",
+  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && cd /workspaces/Cr7ForEver/.devcontainer && xray run -c config.json",
   "portsAttributes": {
     "443": {
       "label": "Xray VLESS",

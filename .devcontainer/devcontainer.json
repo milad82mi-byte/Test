@@ -12,20 +12,16 @@
       "version": "latest"
     }
   },
-  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && gh codespace ports visibility 40443:public -c $CODESPACE_NAME",
+  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME",
   "portsAttributes": {
     "443": {
-      "label": "Xray",
+      "label": "Xray VLESS",
       "protocol": "https",
-      "visibility": "public"
-    },
-    "40443": {
-      "label": "SNI-Spoofer",
-      "protocol": "http",
-      "visibility": "public"
+      "visibility": "public",
+      "onAutoForward": "notify"
     }
   },
-  "forwardPorts": [443, 40443],
+  "forwardPorts": [443],
   "hostRequirements": {
     "cpus": 2
   }

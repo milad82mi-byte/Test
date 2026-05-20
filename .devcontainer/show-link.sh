@@ -36,10 +36,11 @@ CHAR=${MANGA_CHARS[$RANDOM % ${#MANGA_CHARS[@]}]}
 RANDOM_ID=$(shuf -i 1000-9999 -n 1)
 NAME="${CHAR}-${RANDOM_ID}"
 
-LINK="vless://${UUID}@104.19.229.21:443?encryption=none&security=tls&sni=www.hcaptcha.com&fp=chrome&allowInsecure=1&type=xhttp&mode=packet-up&path=%2F&host=www.hcaptcha.com#${NAME}"
+LINK="vless://${UUID}@104.19.229.21:40443?encryption=none&security=none&type=tcp#${NAME}"
 
 echo ""
 echo "================================================"
+echo "✅ لینک اتصال برای گوشی:"
 echo "$LINK"
 echo "================================================"
 echo ""

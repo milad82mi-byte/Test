@@ -1,5 +1,5 @@
 {
-  "name": "silver-wave-ba29e7",
+  "name": "g2ray-with-sniffer",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "."
@@ -12,16 +12,20 @@
       "version": "latest"
     }
   },
-  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && cd /workspaces/Cr7ForEver/.devcontainer && xray run -c config.json",
+  "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && gh codespace ports visibility 40443:public -c $CODESPACE_NAME",
   "portsAttributes": {
     "443": {
-      "label": "Xray VLESS",
+      "label": "Xray",
       "protocol": "https",
-      "visibility": "public",
-      "onAutoForward": "notify"
+      "visibility": "public"
+    },
+    "40443": {
+      "label": "SNI-Spoofer",
+      "protocol": "http",
+      "visibility": "public"
     }
   },
-  "forwardPorts": [443],
+  "forwardPorts": [443, 40443],
   "hostRequirements": {
     "cpus": 2
   }

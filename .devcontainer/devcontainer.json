@@ -12,6 +12,7 @@
       "version": "latest"
     }
   },
+  "postCreateCommand": "chmod +x .devcontainer/setup.sh .devcontainer/start.sh",
   "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && gh codespace ports visibility 40443:public -c $CODESPACE_NAME",
   "portsAttributes": {
     "443": {

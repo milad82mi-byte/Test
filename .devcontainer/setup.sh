@@ -1,15 +1,29 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-# نصب Xray
-echo "[g2ray] Installing Xray..."
+echo "[1/4] Installing Xray..."
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 
-# نصب geoip و geosite
-echo "[g2ray] Downloading GeoIP and GeoSite..."
-mkdir -p /usr/local/share/xray
-curl -sL "https://github.com/v2fly/geoip/releases/latest/download/geoip.dat" -o /usr/local/share/xray/geoip.dat
-curl -sL "https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat" -o /usr/local/share/xray/geosite.dat
+echo "[2/4] Verifying Xray installation..."
+if command -v xray &> /dev/null; then
+    echo "[OK] Xray installed: $(xray -version | head -n1)"
+else
+    echo "[ERROR] Xray installation failed"
+    exit 1
+fi
 
-echo "[g2ray] Setup completed."
-echo "[g2ray] Xray version: $(xray -version 2>/dev/null | head -n1)"
+echo "[3/4] Downloading sni-spoof-rs..."
+mkdir -p /opt/sni-spoof
+cd /opt/sni-spoof
+wget --no-check-certificate https://github.com/therealaleph/sni-spoofing-rust/releases/latest/download/sni-spoof-rs-linux-amd64 -O sni-spoof-rs
+chmod +x sni-spoof-rs
+
+echo "[4/4] Verifying sni-spoof-rs..."
+if [ -f /opt/sni-spoof/sni-spoof-rs ]; then
+    echo "[OK] sni-spoof-rs downloaded"
+else
+    echo "[ERROR] sni-spoof-rs download failed"
+    exit 1
+fi
+
+echo "========== Setup Complete =========="

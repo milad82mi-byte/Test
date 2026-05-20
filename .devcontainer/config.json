@@ -1,84 +1,25 @@
 {
-  "log": {
-    "loglevel": "warning",
-    "access": "none",
-    "error": "/tmp/xray-error.log"
-  },
-  "dns": {
-    "servers": [
-      {
-        "address": "https://1.1.1.1/dns-query",
-        "domains": ["geosite:geolocation-!cn"],
-        "queryStrategy": "UseIP"
-      },
-      "8.8.8.8",
-      "localhost"
-    ],
-    "queryStrategy": "UseIPv4"
-  },
   "inbounds": [
     {
-      "tag": "vless-in",
       "port": 443,
-      "listen": "0.0.0.0",
       "protocol": "vless",
       "settings": {
         "clients": [
           {
-            "id": "d41b3be1-820d-4ab8-93d7-b2fa504c1e6f",
-            "flow": "",
-            "level": 0,
-            "email": "user@silver-wave-ba29e7"
+            "id": "d41b3be1-820d-4ab8-93d7-b2fa504c1e6f"
           }
         ],
         "decryption": "none"
       },
       "streamSettings": {
-        "network": "xhttp",
-        "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": true,
-          "serverName": "www.hcaptcha.com"
-        },
-        "xhttpSettings": {
-          "mode": "packet-up",
-          "path": "/"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls", "quic"],
-        "routeOnly": false
+        "network": "tcp",
+        "security": "none"
       }
     }
   ],
   "outbounds": [
     {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIPv4"
-      }
-    },
-    {
-      "tag": "block",
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
-        }
-      }
+      "protocol": "freedom"
     }
-  ],
-  "policy": {
-    "levels": {
-      "0": {
-        "handshake": 4,
-        "connIdle": 300,
-        "uplinkOnly": 2,
-        "downlinkOnly": 5,
-        "bufferSize": 512
-      }
-    }
-  }
+  ]
 }

@@ -1,33 +1,24 @@
 #!/bin/bash
 
-echo "[g2ray auto-restart] Started..."
+echo "[g2ray] Starting SNI Spoofer + Xray..."
 
-if command -v sudo &> /dev/null; then
-    XRAY_CMD="sudo /usr/local/bin/xray"
-    echo "[g2ray] sudo detected, using it"
-else
-    XRAY_CMD="/usr/local/bin/xray"
-    echo "[g2ray] sudo not found, running directly"
-fi
+# اجرای sniffer
+echo "[g2ray] Starting SNI Spoofer on port 40443..."
+/opt/sni-spoof/sni-spoof-rs /etc/xray/sniffer-config.json &
+SNIFFER_PID=$!
+echo "[g2ray] SNI Spoofer PID: $SNIFFER_PID"
 
-while true; do
-  $XRAY_CMD run -c /etc/xray/g2ray.json &>/tmp/xray.log &
-  PID=$!
+sleep 3
 
-  sleep 2
-  show-link.sh
+# اجرای Xray
+echo "[g2ray] Starting Xray on port 443..."
+/usr/local/bin/xray run -c /etc/xray/g2ray.json &
+XRAY_PID=$!
+echo "[g2ray] Xray PID: $XRAY_PID"
 
-  echo "[g2ray] Running with PID $PID"
+# نمایش لینک
+sleep 2
+show-link.sh
 
-  for ((i=0; i<73; i++)); do
-    sleep 180
-    echo "1"
-  done
-
-  echo "[g2ray] Stopping..."
-  kill $PID
-
-  sleep 5
-
-  echo "[g2ray] Restarting..."
-done
+# نگهداری پروسه‌ها
+wait
